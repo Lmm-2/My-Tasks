@@ -468,7 +468,7 @@
         </div>
     </div>
 
-    <!-- نافذة عرض تفاصيل النشاط عند النقر عليه من التقويم (تفتح على الموبايل بوضوح) -->
+    <!-- نافذة عرض تفاصيل النشاط عند النقر عليه من التقويم -->
     <div id="eventModalOverlay" style="display: none;">
         <div class="popup-card">
             <h2 id="modalEventTitle" style="color: var(--nav-bg); margin-bottom: 10px;">تفاصيل الحدث</h2>
@@ -538,15 +538,15 @@
                 </div>
 
                 <!-- التقويم الشامل -->
-                <div id="printableMasterArea" style="margin-top: 10px;">
-                    <div class="calendar-container">
+                <div id="printableMasterArea" style="margin-top: 10px; background: white; padding: 15px; border-radius: 15px;">
+                    <div class="calendar-container" style="border: none; padding: 0; margin-top: 0;">
                         <div class="calendar-header">
                             <span>📅 التقويم الشامل لكل نشاطاتك (يوليو 2026)</span>
                         </div>
                         <div class="calendar-grid" id="masterCalendarGrid"></div>
                     </div>
 
-                    <div class="card" style="margin-top: 20px; border: 1px solid var(--border-color);">
+                    <div class="card" style="margin-top: 20px; border: 1px solid var(--border-color); box-shadow: none;">
                         <h3 style="color: var(--nav-bg); margin-bottom: 12px; font-size: 18px;">📌 قائمة المهام اليومية السريعة</h3>
                         <div id="homeTasksList">
                             <p style="text-align: center; opacity: 0.6; font-size: 14px;">لا توجد مهام مضافة حالياً.</p>
@@ -554,7 +554,7 @@
                     </div>
                 </div>
 
-                <button class="action-btn download-btn" onclick="downloadMasterImage()">📥 تحميل التقويم الشامل وكل الأشياء كصورة مطبوعة</button>
+                <button class="action-btn download-btn" onclick="downloadMasterImage()">📥 تحميل التقويم الشامل وكل الأشياء كصورة واضحة</button>
             </div>
 
             <!-- 1. قسم الدراسة والامتحانات -->
@@ -1191,7 +1191,8 @@
 
         function downloadMasterImage() {
             let area = document.getElementById('printableMasterArea');
-            html2canvas(area, { scale: 2 }).then(canvas => {
+            // رفع الـ scale إلى 4 لضمان دقة وضوح عالية جداً للصورة المنزلة
+            html2canvas(area, { scale: 4, useCORS: true }).then(canvas => {
                 let link = document.createElement('a');
                 link.download = 'Master-Schedule-Calendar.png';
                 link.href = canvas.toDataURL('image/png');
