@@ -152,7 +152,7 @@
             background: #219653 !important;
         }
 
-        #welcomePopupOverlay {
+        #welcomePopupOverlay, #eventModalOverlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -384,7 +384,7 @@
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
+            gap: 4px;
             text-align: center;
             width: 100%;
         }
@@ -392,17 +392,17 @@
         .calendar-day-name {
             font-weight: bold;
             color: #666;
-            font-size: 13px;
+            font-size: 12px;
             padding-bottom: 8px;
             text-align: center;
         }
 
         .calendar-cell {
-            min-height: 80px;
+            min-height: 85px;
             background: #f9f9f9;
             border-radius: 8px;
-            padding: 4px;
-            font-size: 12px;
+            padding: 3px;
+            font-size: 11px;
             border: 1px solid #eee;
             display: flex;
             flex-direction: column;
@@ -421,15 +421,15 @@
         .calendar-cell .day-num {
             font-weight: bold;
             margin-bottom: 2px;
-            font-size: 12px;
+            font-size: 11px;
             color: #333;
         }
 
         .calendar-event {
-            font-size: 9px;
+            font-size: 8px;
             color: white;
-            padding: 2px 4px;
-            border-radius: 3px;
+            padding: 3px 2px;
+            border-radius: 4px;
             margin-top: 2px;
             width: 100%;
             overflow: hidden;
@@ -437,7 +437,8 @@
             white-space: nowrap;
             text-align: center;
             cursor: pointer;
-            position: relative;
+            font-weight: bold;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         footer {
@@ -461,9 +462,19 @@
                 <li><strong>1. الفكرة والهدف:</strong> هذا الموقع هو منظّمك الشامل الخاص لترتيب جدولك ومواعيدك بخصوصية تامة.</li>
                 <li><strong>2. تسجيل الدخول:</strong> أدخل اسمك، رقمك التعريفي الخاص بك، وحدد الثيم المناسب لك ليبقي جدولك محفوظاً خصيصاً لك وحدك.</li>
                 <li><strong>3. الأقسام الرئيسية:</strong> يتضمن الموقع 4 أقسام لإدارة حياتك: الدراسة والامتحانات، الطبخ والأكلات، المشاوير والطلعات، والمهام اليومية.</li>
-                <li><strong>4. التقويم الشامل:</strong> يتم جمع كافة الامتحانات والطبخات والمشاوير المضافة تلقائياً داخل تقويم شهري منتظم مع تمرير الماوس لعرض التفاصيل الكاملة، وإمكانية التحميل كصورة.</li>
+                <li><strong>4. التقويم الشامل:</strong> يتم جمع كافة الامتحانات والطبخات والمشاوير المضافة تلقائياً داخل تقويم شهري منتظم. اضغطي على أي نشاط في التقويم لعرض تفاصيله كاملة.</li>
             </ul>
             <button class="action-btn" onclick="closeWelcomePopup()">فهمت، ابدأ التسجيل ✨</button>
+        </div>
+    </div>
+
+    <!-- نافذة عرض تفاصيل النشاط عند النقر عليه من التقويم (تفتح على الموبايل بوضوح) -->
+    <div id="eventModalOverlay" style="display: none;">
+        <div class="popup-card">
+            <h2 id="modalEventTitle" style="color: var(--nav-bg); margin-bottom: 10px;">تفاصيل الحدث</h2>
+            <p id="modalEventDate" style="font-weight: bold; margin-bottom: 10px; color: #555;"></p>
+            <p id="modalEventDesc" style="font-size: 15px; line-height: 1.6; margin-bottom: 20px; background: var(--input-bg); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);"></p>
+            <button class="action-btn" onclick="closeEventModal()">إغلاق ✖</button>
         </div>
     </div>
 
@@ -854,6 +865,17 @@
             listContainer.innerHTML = html;
         }
 
+        function showEventModal(title, dateStr, details) {
+            document.getElementById('modalEventTitle').innerText = title;
+            document.getElementById('modalEventDate').innerText = `📅 التاريخ: ${dateStr}`;
+            document.getElementById('modalEventDesc').innerText = details;
+            document.getElementById('eventModalOverlay').style.display = 'flex';
+        }
+
+        function closeEventModal() {
+            document.getElementById('eventModalOverlay').style.display = 'none';
+        }
+
         function buildMasterCalendar(user) {
             let grid = document.getElementById('masterCalendarGrid');
             
@@ -884,20 +906,23 @@
 
                 let matchingExams = user.exams.filter(e => e.date === currentDateStr);
                 matchingExams.forEach(m => {
-                    let tooltipText = `امتحان مادة: ${m.subject}\nالتفاصيل: ${m.content}`;
-                    evHTML += `<div class="calendar-event" style="background: ${m.color};" title="${tooltipText}">📚 ${m.subject}</div>`;
+                    let safeTitle = m.subject.replace(/'/g, "\\'");
+                    let safeDesc = (m.content || 'لا توجد تفاصيل').replace(/'/g, "\\'");
+                    evHTML += `<div class="calendar-event" style="background: ${m.color};" onclick="showEventModal('امتحان: ${safeTitle}', '${currentDateStr}', '${safeDesc}')">📚 ${m.subject}</div>`;
                 });
 
                 let matchingCooking = user.cooking.filter(c => c.date === currentDateStr);
                 matchingCooking.forEach(c => {
-                    let tooltipText = `طبخة: ${c.name}\nالمقادير: ${c.ingredients}`;
-                    evHTML += `<div class="calendar-event" style="background: #e67e22;" title="${tooltipText}">🍳 ${c.name}</div>`;
+                    let safeTitle = c.name.replace(/'/g, "\\'");
+                    let safeDesc = (c.ingredients || 'لا توجد مقادير').replace(/'/g, "\\'");
+                    evHTML += `<div class="calendar-event" style="background: #e67e22;" onclick="showEventModal('طبخة: ${safeTitle}', '${currentDateStr}', 'المقادير: ${safeDesc}')">🍳 ${c.name}</div>`;
                 });
 
                 let matchingOutings = user.outings.filter(o => o.date === currentDateStr);
                 matchingOutings.forEach(o => {
-                    let tooltipText = `مشوار إلى: ${o.place}\nملاحظات: ${o.notes || 'لا توجد ملاحظات'}`;
-                    evHTML += `<div class="calendar-event" style="background: #2980b9;" title="${tooltipText}">🚗 ${o.place}</div>`;
+                    let safeTitle = o.place.replace(/'/g, "\\'");
+                    let safeDesc = (o.notes || 'لا توجد ملاحظات').replace(/'/g, "\\'");
+                    evHTML += `<div class="calendar-event" style="background: #2980b9;" onclick="showEventModal('مشوار: ${safeTitle}', '${currentDateStr}', 'ملاحظات: ${safeDesc}')">🚗 ${o.place}</div>`;
                 });
 
                 cellsHTML += `
