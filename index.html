@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منظّمي الشامل الذكي</title>
+    <title>نَظِّمْها</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -494,6 +494,10 @@
             width: 100%;
             font-size: 14px;
             margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
         }
     </style>
 </head>
@@ -502,7 +506,7 @@
     <!-- نافذة الدليل المنبثقة -->
     <div id="welcomePopupOverlay">
         <div class="popup-card">
-            <h2>📖 دليل استخدام الموقع الشامل</h2>
+            <h2>📖 دليل استخدام موقع نَظِّمْها</h2>
             <ul style="padding-right: 20px; font-size: 13px; line-height: 1.8; margin-bottom: 20px; text-align: right;">
                 <li><strong>1. الفكرة والهدف:</strong> منظّمك الخاص المباشر لترتيب جدولك ومواعيدك.</li>
                 <li><strong>2. التقويم التفاعلي:</strong> أي امتحان، طبخة، أو مشوار يظهر في التقويم، يمكنك النقر عليه مباشرة لتعديله أو إلغائه فورا!</li>
@@ -531,7 +535,7 @@
     <!-- شاشة تسجيل الدخول -->
     <div id="authScreen" style="display: none;">
         <div class="auth-card">
-            <h2>✨ أهلاً بك في منظّمي الشامل</h2>
+            <h2>✨ أهلاً بك في موقع نَظِّمْها</h2>
             <p style="margin-bottom: 20px; font-size: 14px; opacity: 0.8;">أدخل اسمك والرقم التعريفي الخاص بك</p>
             
             <input type="text" id="userName" placeholder="اسمك الكريم...">
@@ -550,7 +554,7 @@
     <!-- لوحة التحكم والأقسام -->
     <div id="appScreen" style="display: none; width: 100%; flex-direction: column; align-items: center; flex: 1;">
         <nav>
-            <span id="welcomeMsg">📋 منظّمي الشامل</span>
+            <span id="welcomeMsg">📌 نَظِّمْها</span>
             <button class="logout-btn" onclick="logout()">خروج</button>
         </nav>
 
@@ -691,7 +695,8 @@
         </div>
 
         <footer>
-            <p>© 2026 منظّمي الشامل الذكي</p>
+            <p>© 2026 موقع نَظِّمْها الذكي</p>
+            <p style="font-size: 13px; opacity: 0.9;">فكرة وتصميم: لجين 🤍</p>
         </footer>
     </div>
 
@@ -808,7 +813,7 @@
 
             document.getElementById('authScreen').style.display = 'none';
             document.getElementById('appScreen').style.display = 'flex';
-            document.getElementById('welcomeMsg').innerText = `📋 أهلاً بك، ${currentUser.name}`;
+            document.getElementById('welcomeMsg').innerText = `📌 أهلاً بك، ${currentUser.name}`;
 
             refreshAllData(id);
         }
