@@ -173,7 +173,7 @@
             resize: none;
         }
 
-        button[type="submit"] {
+        button[type="button"] {
             background: #8b5e3c;
             color: white;
             border: none;
@@ -187,8 +187,44 @@
             font-weight: bold;
         }
 
-        button[type="submit"]:hover {
+        button[type="button"]:hover {
             background: #6d4528;
+        }
+
+        /* نافذة فاتورة الطلب */
+        #invoiceSection {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.08);
+            text-align: right;
+            border: 2px dashed #8b5e3c;
+        }
+
+        #invoiceSection h2 {
+            text-align: center;
+            color: #8b5e3c;
+            margin-bottom: 20px;
+        }
+
+        .invoice-details {
+            background: #fff8f0;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .instruction-box {
+            background: #eef9f0;
+            border: 1px solid #25d366;
+            color: #1a5c32;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
         footer {
@@ -240,14 +276,9 @@
 
         <!-- 2. صفحة المنتجات -->
         <div id="productsPage" class="page-section">
-            <form action="https://formsubmit.co/findyourfavoritesinmyshop@gmail.com" method="POST" style="display: flex; flex-direction: column; gap: 20px;">
-                
-                <!-- إعدادات FormSubmit -->
-                <input type="hidden" name="_subject" value="طلب جديد من متجر L's bakery!">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_thankyou" value="تم إرسال طلبك بنجاح، شكرًا لتسوقك من L's bakery 🤎">
-
+            
+            <!-- قسم اختيار المنتجات والبيانات -->
+            <div id="orderFormContainer" style="display: flex; flex-direction: column; gap: 20px;">
                 <h2 style="text-align: center; color: #8b5e3c;">قائمة المنتجات واختيار الطلب</h2>
 
                 <!-- شبكة المنتجات (كل 2 جنب بعض) -->
@@ -262,8 +293,8 @@
                         </div>
                         <div>
                             <label>نوع الكوكيز :</label>
-                            <select name="كوكيز_بايتس_النوع">
-                                <option value="لا أرغب بـ كوكيز بايتس">لا أرغب به</option>
+                            <select id="bitesType">
+                                <option value="لا أرغب به">لا أرغب به</option>
                                 <option value="كلاسيك">كلاسيك</option>
                                 <option value="شوكولاتة">شوكولاتة</option>
                                 <option value="مختلط">مختلط</option>
@@ -280,13 +311,13 @@
                         </div>
                         <div>
                             <label>نوع الكوكيز :</label>
-                            <select name="الكوكيز_شوكولاتة_النوع" id="chocType" onchange="toggleChocFilling()">
-                                <option value="لا أرغب بـ الكوكيز شوكولاتة (النوع)">لا أرغب به</option>
+                            <select id="chocType" onchange="toggleChocFilling()">
+                                <option value="لا أرغب به">لا أرغب به</option>
                                 <option value="شوكولاتة">شوكولاتة</option>
                             </select>
                             <label>الحشوة :</label>
-                            <select name="الكوكيز_شوكولاتة_الحشوة" id="chocFill">
-                                <option value="لا أرغب بـ الكوكيز شوكولاتة (الحشوة)">لا أرغب به</option>
+                            <select id="chocFill">
+                                <option value="لا أرغب به">لا أرغب به</option>
                                 <option value="بدون نوتيلا">بدون نوتيلا</option>
                                 <option value="مع نوتيلا">مع نوتيلا</option>
                             </select>
@@ -302,13 +333,13 @@
                         </div>
                         <div>
                             <label>نوع الكوكيز :</label>
-                            <select name="الكوكيز_كلاسيك_النوع" id="classicType" onchange="toggleClassicFilling()">
-                                <option value="لا أرغب بـ الكوكيز كلاسيك (النوع)">لا أرغب به</option>
+                            <select id="classicType" onchange="toggleClassicFilling()">
+                                <option value="لا أرغب به">لا أرغب به</option>
                                 <option value="كلاسيك">كلاسيك</option>
                             </select>
                             <label>الحشوة :</label>
-                            <select name="الكوكيز_كلاسيك_الحشوة" id="classicFill">
-                                <option value="لا أرغب بـ الكوكيز كلاسيك (الحشوة)">لا أرغب به</option>
+                            <select id="classicFill">
+                                <option value="لا أرغب به">لا أرغب به</option>
                                 <option value="بدون نوتيلا">بدون نوتيلا</option>
                                 <option value="مع نوتيلا">مع نوتيلا</option>
                             </select>
@@ -327,8 +358,8 @@
                         </div>
                         <div>
                             <label>نوع المشروب :</label>
-                            <select name="كوكيز_vip_المشروب">
-                                <option value="لا أرغب بـ كوكيز vip">لا أرغب به</option>
+                            <select id="vipDrink">
+                                <option value="لا أرغب به">لا أرغب به</option>
                                 <option value="نسكافيه ساخنة">نسكافيه ساخنة</option>
                                 <option value="نسكافيه باردة">نسكافيه باردة</option>
                                 <option value="ماء">ماء</option>
@@ -341,13 +372,25 @@
                 <!-- بيانات الطلب -->
                 <div class="card" style="width: 100%;">
                     <h2>📝 معلومات الطلب</h2>
-                    <input type="text" name="الاسم" placeholder="الاسم الكريم" required>
-                    <input type="tel" name="رقم_الهاتف" placeholder="رقم الهاتف" required>
-                    <textarea name="ملاحظات_إضافية" placeholder="ملاحظات إضافية"></textarea>
-                    <button type="submit">إرسال الطلب</button>
+                    <input type="text" id="clientName" placeholder="الاسم الكريم" required>
+                    <input type="tel" id="clientPhone" placeholder="رقم الهاتف" required>
+                    <textarea id="clientNotes" placeholder="ملاحظات إضافية"></textarea>
+                    <button type="button" onclick="generateInvoice()">إتمام الطلب وعرض الفاتورة 🤎</button>
                 </div>
+            </div>
 
-            </form>
+            <!-- قسم الفاتورة التي تظهر بعد إتمام الطلب -->
+            <div id="invoiceSection">
+                <h2>📋 ملخص الطلب وفاتورتك</h2>
+                <div class="invoice-details" id="invoiceContent">
+                    <!-- سيتم تعبئة تفاصيل الطلب هنا تلقائياً -->
+                </div>
+                <div class="instruction-box">
+                    📸 يرجى التقاط صورة (سكرين ش็ت) لهذه الصفحة وإرسالها إلى رقم الواتساب الخاص بالمتجر لكي يتم تجهيز الطلب بنجاح!
+                </div>
+                <button type="button" onclick="resetOrder()" style="background: #a44d27;">إلغاء أو تعديل الطلب</button>
+            </div>
+
         </div>
 
         <!-- 3. صفحة تواصل معنا -->
@@ -368,7 +411,7 @@
         <p>جميع الحقوق محفوظة.</p>
     </footer>
 
-    <!-- السكربتات (التنقل بين الصفحات والتحديث التلقائي) -->
+    <!-- السكربتات (إدارة الصفحات وإنشاء الفاتورة) -->
     <script>
         function switchPage(pageId) {
             let pages = document.getElementsByClassName('page-section');
@@ -383,7 +426,7 @@
             let typeSelect = document.getElementById('chocType');
             let fillSelect = document.getElementById('chocFill');
             if (typeSelect.value.includes("لا أرغب")) {
-                fillSelect.value = "لا أرغب بـ الكوكيز شوكولاتة (الحشوة)";
+                fillSelect.value = "لا أرغب به";
             }
         }
 
@@ -391,8 +434,54 @@
             let typeSelect = document.getElementById('classicType');
             let fillSelect = document.getElementById('classicFill');
             if (typeSelect.value.includes("لا أرغب")) {
-                fillSelect.value = "لا أرغب بـ الكوكيز كلاسيك (الحشوة)";
+                fillSelect.value = "لا أرغب به";
             }
+        }
+
+        function generateInvoice() {
+            let name = document.getElementById('clientName').value.trim();
+            let phone = document.getElementById('clientPhone').value.trim();
+            let notes = document.getElementById('clientNotes').value.trim();
+
+            if (!name || !phone) {
+                alert("الرجاء إدخال الاسم ورقم الهاتف قبل إتمام الطلب.");
+                return;
+            }
+
+            let bites = document.getElementById('bitesType').value;
+            let chocType = document.getElementById('chocType').value;
+            let chocFill = document.getElementById('chocFill').value;
+            let classicType = document.getElementById('classicType').value;
+            let classicFill = document.getElementById('classicFill').value;
+            let vipDrink = document.getElementById('vipDrink').value;
+
+            // بناء محتوى الفاتورة
+            let invoiceHTML = `
+                <p><strong>👤 الاسم الكريم:</strong> ${name}</p>
+                <p><strong>📞 رقم الهاتف:</strong> <span dir="ltr">${phone}</span></p>
+                <hr style="border: 0; border-top: 1px solid #d4a373; margin: 10px 0;">
+                <p><strong>🛒 المنتجات المختارة:</strong></p>
+                <ul style="list-style-type: disc; margin-right: 20px; margin-top: 5px;">
+                    <li>كوكيز بايتس: <strong>${bites}</strong></li>
+                    <li>شوكولاتة (النوع): <strong>${chocType}</strong></li>
+                    <li>شوكولاتة (الحشوة): <strong>${chocFill}</strong></li>
+                    <li>كلاسيك (النوع): <strong>${classicType}</strong></li>
+                    <li>كلاسيك (الحشوة): <strong>${classicFill}</strong></li>
+                    <li>كوكيز VIP (المشروب): <strong>${vipDrink}</strong></li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>📝 ملاحظات إضافية:</strong> ${notes ? notes : 'لا يوجد'}</p>
+            `;
+
+            document.getElementById('invoiceContent').innerHTML = invoiceHTML;
+            document.getElementById('orderFormContainer').style.display = 'none';
+            document.getElementById('invoiceSection').style.display = 'block';
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function resetOrder() {
+            document.getElementById('invoiceSection').style.display = 'none';
+            document.getElementById('orderFormContainer').style.display = 'flex';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 
