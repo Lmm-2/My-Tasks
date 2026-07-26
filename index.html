@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L's bakery - متجر الكوكيز الفاخر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background: #fff8f5;
+            color: #4b2e2e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* شريط التنقل */
+        nav {
+            background: #6d4528;
+            width: 100%;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        nav ul li a:hover {
+            color: #f3d5b5;
+        }
+
+        header {
+            background: #8b5e3c;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            font-size: 17px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+        }
+
+        /* التحكم بعرض الصفحات (Tab Content) */
+        .page-section {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .page-section.active {
+            display: flex;
+        }
+
+        /* شبكة المنتجات (2 جنب بعض) */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.08);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(139, 94, 60, 0.18);
+        }
+
+        .card h2 {
+            margin-bottom: 15px;
+            color: #8b5e3c;
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        select,
+        input[type="text"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            background: #fff;
+            outline: none;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button[type="submit"] {
+            background: #8b5e3c;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: .3s;
+            width: 100%;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        button[type="submit"]:hover {
+            background: #6d4528;
+        }
+
+        footer {
+            background: #8b5e3c;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            width: 100%;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التنقل -->
+    <nav>
+        <div class="logo">L's bakery 🍪</div>
+        <ul>
+            <li><a onclick="switchPage('homePage')">الرئيسية</a></li>
+            <li><a onclick="switchPage('productsPage')">المنتجات</a></li>
+            <li><a onclick="switchPage('contactPage')">تواصل معي</a></li>
+        </ul>
+    </nav>
+
+    <!-- الهيدر الثابت -->
+    <header>
+        <h1>L's bakery 🍪</h1>
+        <p>
+            أهلاً بك في متجري 🤎<br>
+            أصنع لك الكوكيز الطازج بكل حب وبأجود المكونات.
+        </p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. صفحة الرئيسية -->
+        <div id="homePage" class="page-section active">
+            <div class="card" style="width: 100%;">
+                <h2>من أنا؟</h2>
+                <p>في L's bakery أهتم بتقديم كوكيز طازج ولذيذ يتم تحضيره حسب الطلب ليصل إليك بأفضل جودة.</p>
+            </div>
+            <div class="card" style="width: 100%; background-color: #fff8f0; border: 2px dashed #8b5e3c;">
+                <h2>⏱️ مدة تجهيز الطلب</h2>
+                <p style="font-size: 1.1em; font-weight: bold;">أقوم بتجهيز طلبك خلال مدة حسب توفر المنتج وكمية الطلب.</p>
+            </div>
+        </div>
+
+        <!-- 2. صفحة المنتجات -->
+        <div id="productsPage" class="page-section">
+            <form action="https://formsubmit.co/findyourfavoritesinmyshop@gmail.com" method="POST" style="display: flex; flex-direction: column; gap: 20px;">
+                
+                <!-- إعدادات FormSubmit -->
+                <input type="hidden" name="_subject" value="طلب جديد من متجر L's bakery!">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_thankyou" value="تم إرسال طلبك بنجاح، شكرًا لتسوقك من L's bakery 🤎">
+
+                <h2 style="text-align: center; color: #8b5e3c;">قائمة المنتجات واختيار الطلب</h2>
+
+                <!-- شبكة المنتجات (كل 2 جنب بعض) -->
+                <div class="products-grid">
+                    
+                    <!-- 1. كوكيز بايتس -->
+                    <div class="card">
+                        <div>
+                            <h2>🍫 كوكيز بايتس</h2>
+                            <img src="images/bites.jpg" alt="كوكيز بايتس">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 10px;">قطع كوكيز صغيرة لذيذة ومقرمشة ومناسبة للمشاركة.</p>
+                        </div>
+                        <div>
+                            <label>نوع الكوكيز :</label>
+                            <select name="كوكيز_بايتس_النوع">
+                                <option value="لا أرغب بـ كوكيز بايتس">لا أرغب به</option>
+                                <option value="كلاسيك">كلاسيك</option>
+                                <option value="شوكولاتة">شوكولاتة</option>
+                                <option value="مختلط">مختلط</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 2. الكوكيز شوكولاتة -->
+                    <div class="card">
+                        <div>
+                            <h2>🍫 الكوكيز شوكولاتة</h2>
+                            <img src="images/cookie.jpg" alt="الكوكيز شوكولاتة">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 10px;">كوكيز غني بنكهة الشوكولاتة الفاخرة والطازجة.</p>
+                        </div>
+                        <div>
+                            <label>نوع الكوكيز :</label>
+                            <select name="الكوكيز_شوكولاتة_النوع" id="chocType" onchange="toggleChocFilling()">
+                                <option value="لا أرغب بـ الكوكيز شوكولاتة (النوع)">لا أرغب به</option>
+                                <option value="شوكولاتة">شوكولاتة</option>
+                            </select>
+                            <label>الحشوة :</label>
+                            <select name="الكوكيز_شوكولاتة_الحشوة" id="chocFill">
+                                <option value="لا أرغب بـ الكوكيز شوكولاتة (الحشوة)">لا أرغب به</option>
+                                <option value="بدون نوتيلا">بدون نوتيلا</option>
+                                <option value="مع نوتيلا">مع نوتيلا</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 3. الكوكيز كلاسيك -->
+                    <div class="card">
+                        <div>
+                            <h2>🍪 الكوكيز كلاسيك</h2>
+                            <img src="images/combo.jpg" alt="الكوكيز كلاسيك">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 10px;">الكوكيز التقليدي الأصيل المخبوز بعناية فائقة.</p>
+                        </div>
+                        <div>
+                            <label>نوع الكوكيز :</label>
+                            <select name="الكوكيز_كلاسيك_النوع" id="classicType" onchange="toggleClassicFilling()">
+                                <option value="لا أرغب بـ الكوكيز كلاسيك (النوع)">لا أرغب به</option>
+                                <option value="كلاسيك">كلاسيك</option>
+                            </select>
+                            <label>الحشوة :</label>
+                            <select name="الكوكيز_كلاسيك_الحشوة" id="classicFill">
+                                <option value="لا أرغب بـ الكوكيز كلاسيك (الحشوة)">لا أرغب به</option>
+                                <option value="بدون نوتيلا">بدون نوتيلا</option>
+                                <option value="مع نوتيلا">مع نوتيلا</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 4. كوكيز VIP -->
+                    <div class="card">
+                        <div>
+                            <h2>🎁 كوكيز vip</h2>
+                            <img src="images/vip.jpg" alt="كوكيز vip">
+                            <p style="line-height: 1.8; font-weight: bold; color: #6d4528; margin-bottom: 10px; font-size: 13px;">
+                                ✔ حبة كلاسيك | ✔ حبة محشي نوتيلا<br>
+                                ✔ حبة شوكولاتة | ✔ حبة شوكولاتة محشية نوتيلا
+                            </p>
+                        </div>
+                        <div>
+                            <label>نوع المشروب :</label>
+                            <select name="كوكيز_vip_المشروب">
+                                <option value="لا أرغب بـ كوكيز vip">لا أرغب به</option>
+                                <option value="نسكافيه ساخنة">نسكافيه ساخنة</option>
+                                <option value="نسكافيه باردة">نسكافيه باردة</option>
+                                <option value="ماء">ماء</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- بيانات الطلب -->
+                <div class="card" style="width: 100%;">
+                    <h2>📝 معلومات الطلب</h2>
+                    <input type="text" name="الاسم" placeholder="الاسم الكريم" required>
+                    <input type="tel" name="رقم_الهاتف" placeholder="رقم الهاتف" required>
+                    <textarea name="ملاحظات_إضافية" placeholder="ملاحظات إضافية"></textarea>
+                    <button type="submit">إرسال الطلب</button>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- 3. صفحة تواصل معنا -->
+        <div id="contactPage" class="page-section">
+            <div class="card" style="width: 100%;">
+                <h2>📍 تواصل معي</h2>
+                <p style="margin-bottom: 15px;">يسعدني تواصلك معي عبر الطرق التالية:</p>
+                <p style="margin-bottom: 10px;">للتواصل علي الايميل :<br><strong style="color: #8b5e3c;">findyourfavoritesinmyshop@gmail.com</strong></p>
+                <p style="margin-top: 15px;">للتواصل على الواتساب :<br><strong style="color: #8b5e3c;" dir="ltr">0505089503</strong></p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- حقوق الحفظ تحت -->
+    <footer>
+        <p>© 2026 L's bakery</p>
+        <p>جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <!-- السكربتات (التنقل بين الصفحات والتحديث التلقائي) -->
+    <script>
+        function switchPage(pageId) {
+            let pages = document.getElementsByClassName('page-section');
+            for (let i = 0; i < pages.length; i++) {
+                pages[i].classList.remove('active');
+            }
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function toggleChocFilling() {
+            let typeSelect = document.getElementById('chocType');
+            let fillSelect = document.getElementById('chocFill');
+            if (typeSelect.value.includes("لا أرغب")) {
+                fillSelect.value = "لا أرغب بـ الكوكيز شوكولاتة (الحشوة)";
+            }
+        }
+
+        function toggleClassicFilling() {
+            let typeSelect = document.getElementById('classicType');
+            let fillSelect = document.getElementById('classicFill');
+            if (typeSelect.value.includes("لا أرغب")) {
+                fillSelect.value = "لا أرغب بـ الكوكيز كلاسيك (الحشوة)";
+            }
+        }
+    </script>
+
+</body>
+</html>
