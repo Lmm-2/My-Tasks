@@ -3,9 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L's bakery - متجر الكوكيز الفاخر</title>
+    <title>منظّمي الشامل الذكي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
+        :root {
+            --bg-color: #fdfbf7;
+            --nav-bg: #8b5e3c;
+            --card-bg: #ffffff;
+            --text-color: #4b2e2e;
+            --border-color: #e7bc91;
+            --btn-bg: #8b5e3c;
+            --btn-hover: #6d4528;
+            --input-bg: #fff8f0;
+        }
+
+        body.theme-female {
+            --bg-color: #fdf6f9;
+            --nav-bg: #b56576;
+            --card-bg: #ffffff;
+            --text-color: #5c3a42;
+            --border-color: #f3c6d1;
+            --btn-bg: #b56576;
+            --btn-hover: #934c5b;
+            --input-bg: #fff9fb;
+        }
+
+        body.theme-male {
+            --bg-color: #f4f6f9;
+            --nav-bg: #2c3e50;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #cbd5e1;
+            --btn-bg: #3498db;
+            --btn-hover: #2980b9;
+            --input-bg: #ffffff;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,474 +48,1142 @@
         }
 
         body {
-            background: #fff8f5;
-            color: #4b2e2e;
+            background: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            transition: 0.3s;
         }
 
-        /* شريط التنقل */
         nav {
-            background: #6d4528;
+            background: var(--nav-bg);
             width: 100%;
-            padding: 15px 20px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
             color: white;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        nav .logo {
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            transition: 0.3s;
+            padding: 5px 15px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 14px;
         }
-
-        nav ul li a:hover {
-            color: #f3d5b5;
-        }
-
-        header {
-            background: #8b5e3c;
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-            width: 100%;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        header h1 {
-            font-size: 38px;
-            margin-bottom: 15px;
-        }
-
-        header p {
-            font-size: 17px;
-            margin-bottom: 20px;
-            line-height: 1.6;
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.4);
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             width: 100%;
-            padding: 20px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
             flex: 1;
         }
 
-        /* التحكم بعرض الصفحات (Tab Content) */
-        .page-section {
-            display: none;
-            width: 100%;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .page-section.active {
-            display: flex;
-        }
-
-        /* شبكة المنتجات (2 جنب بعض) */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            width: 100%;
-        }
-
-        @media (max-width: 768px) {
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         .card {
-            background: white;
+            background: var(--card-bg);
             padding: 25px;
             border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.08);
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 25px rgba(139, 94, 60, 0.18);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
         }
 
         .card h2 {
+            color: var(--nav-bg);
             margin-bottom: 15px;
-            color: #8b5e3c;
+            font-size: 20px;
         }
 
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 8px;
-            font-weight: bold;
-            text-align: right;
-        }
-
-        select,
-        input[type="text"],
-        input[type="tel"],
-        textarea {
+        input, select, textarea {
             width: 100%;
             padding: 12px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             font-size: 16px;
-            background: #fff;
             outline: none;
+            background: var(--input-bg);
+            color: var(--text-color);
         }
 
         textarea {
-            height: 100px;
+            height: 90px;
             resize: none;
         }
 
-        button[type="button"] {
-            background: #8b5e3c;
+        button.action-btn {
+            background: var(--btn-bg);
             color: white;
             border: none;
-            padding: 14px 30px;
-            border-radius: 30px;
-            font-size: 17px;
-            cursor: pointer;
-            transition: .3s;
-            width: 100%;
-            margin-top: 15px;
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-size: 16px;
             font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
         }
 
-        button[type="button"]:hover {
-            background: #6d4528;
+        button.action-btn:hover {
+            background: var(--btn-hover);
         }
 
-        /* نافذة فاتورة الطلب */
-        #invoiceSection {
-            display: none;
-            background: white;
+        .download-btn {
+            background: #27ae60 !important;
+            margin-top: 15px;
+        }
+        .download-btn:hover {
+            background: #219653 !important;
+        }
+
+        #welcomePopupOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .popup-card {
+            background: #ffffff;
+            color: #4b2e2e;
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.08);
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             text-align: right;
-            border: 2px dashed #8b5e3c;
+            border: 2px solid #e7bc91;
         }
 
-        #invoiceSection h2 {
-            text-align: center;
+        .popup-card h2 {
             color: #8b5e3c;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 22px;
+            text-align: center;
         }
 
-        .invoice-details {
-            background: #fff8f0;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
+        .popup-card ul {
+            padding-right: 20px;
+            font-size: 14px;
             line-height: 1.8;
+            margin-bottom: 20px;
         }
 
-        .instruction-box {
-            background: #eef9f0;
-            border: 1px solid #25d366;
-            color: #1a5c32;
-            padding: 15px;
+        .popup-card li {
+            margin-bottom: 8px;
+        }
+
+        #authScreen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            text-align: center;
+        }
+
+        .auth-card h2 {
+            color: var(--nav-bg);
+            margin-bottom: 15px;
+        }
+
+        .gender-select {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .gender-option {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border-color);
             border-radius: 12px;
+            cursor: pointer;
             text-align: center;
             font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .gender-option.selected {
+            border-color: var(--nav-bg);
+            background: var(--input-bg);
+        }
+
+        .toggle-guide-bar {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            color: var(--nav-bg);
             margin-bottom: 20px;
+            transition: 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            width: 100%;
+        }
+        .toggle-guide-bar:hover {
+            background: var(--input-bg);
+            border-color: var(--nav-bg);
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .sections-grid { grid-template-columns: 1fr; }
+        }
+
+        .section-box {
+            background: var(--input-bg);
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid var(--border-color);
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .section-box:hover {
+            transform: translateY(-5px);
+            border-color: var(--nav-bg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-box h3 {
+            color: var(--nav-bg);
+            font-size: 18px;
+        }
+
+        .back-nav-btn {
+            background: rgba(0,0,0,0.08);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .back-nav-btn:hover { background: rgba(0,0,0,0.15); }
+
+        .item-card {
+            background: var(--input-bg);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-right: 5px solid var(--nav-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .item-details h3 {
+            font-size: 17px;
+            color: var(--nav-bg);
+            margin-bottom: 5px;
+        }
+
+        .item-details p {
+            font-size: 14px;
+            margin-bottom: 3px;
+            line-height: 1.5;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .edit-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .edit-btn:hover { background: #2563eb; }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .delete-btn:hover { background: #dc2626; }
+
+        .calendar-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            margin-top: 15px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: var(--nav-bg);
+            font-size: 18px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .calendar-day-name {
+            font-weight: bold;
+            color: #666;
+            font-size: 13px;
+            padding-bottom: 8px;
+            text-align: center;
+        }
+
+        .calendar-cell {
+            min-height: 80px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 4px;
+            font-size: 12px;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .calendar-cell.empty-cell {
+            background: transparent;
+            border: none;
+            pointer-events: none;
+        }
+
+        .calendar-cell .day-num {
+            font-weight: bold;
+            margin-bottom: 2px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .calendar-event {
+            font-size: 9px;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+            margin-top: 2px;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
         }
 
         footer {
-            background: #8b5e3c;
+            background: var(--nav-bg);
             color: white;
             text-align: center;
-            padding: 25px;
-            margin-top: 40px;
+            padding: 15px;
             width: 100%;
-            font-size: 15px;
-            line-height: 1.6;
+            font-size: 14px;
+            margin-top: 30px;
         }
     </style>
 </head>
-<body>
+<body id="mainBody">
 
-    <!-- شريط التنقل -->
-    <nav>
-        <div class="logo">L's bakery 🍪</div>
-        <ul>
-            <li><a onclick="switchPage('homePage')">الرئيسية</a></li>
-            <li><a onclick="switchPage('productsPage')">المنتجات</a></li>
-            <li><a onclick="switchPage('contactPage')">تواصل معي</a></li>
-        </ul>
-    </nav>
-
-    <!-- الهيدر الثابت -->
-    <header>
-        <h1>L's bakery 🍪</h1>
-        <p>
-            أهلاً بك في متجري 🤎<br>
-            أصنع لك الكوكيز الطازج بكل حب وبأجود المكونات.
-        </p>
-    </header>
-
-    <div class="container">
-
-        <!-- 1. صفحة الرئيسية -->
-        <div id="homePage" class="page-section active">
-            <div class="card" style="width: 100%;">
-                <h2>من أنا؟</h2>
-                <p>في L's bakery أهتم بتقديم كوكيز طازج ولذيذ يتم تحضيره حسب الطلب ليصل إليك بأفضل جودة.</p>
-            </div>
-            <div class="card" style="width: 100%; background-color: #fff8f0; border: 2px dashed #8b5e3c;">
-                <h2>⏱️ مدة تجهيز الطلب</h2>
-                <p style="font-size: 1.1em; font-weight: bold;">أقوم بتجهيز طلبك خلال مدة حسب توفر المنتج وكمية الطلب.</p>
-            </div>
+    <!-- نافذة الدليل المنبثقة -->
+    <div id="welcomePopupOverlay">
+        <div class="popup-card">
+            <h2>📖 دليل استخدام الموقع الشامل</h2>
+            <ul>
+                <li><strong>1. الفكرة والهدف:</strong> هذا الموقع هو منظّمك الشامل الخاص لترتيب جدولك ومواعيدك بخصوصية تامة.</li>
+                <li><strong>2. تسجيل الدخول:</strong> أدخل اسمك، رقمك التعريفي الخاص بك، وحدد الثيم المناسب لك ليبقي جدولك محفوظاً خصيصاً لك وحدك.</li>
+                <li><strong>3. الأقسام الرئيسية:</strong> يتضمن الموقع 4 أقسام لإدارة حياتك: الدراسة والامتحانات، الطبخ والأكلات، المشاوير والطلعات، والمهام اليومية.</li>
+                <li><strong>4. التقويم الشامل:</strong> يتم جمع كافة الامتحانات والطبخات والمشاوير المضافة تلقائياً داخل تقويم شهري منتظم مع تمرير الماوس لعرض التفاصيل الكاملة، وإمكانية التحميل كصورة.</li>
+            </ul>
+            <button class="action-btn" onclick="closeWelcomePopup()">فهمت، ابدأ التسجيل ✨</button>
         </div>
-
-        <!-- 2. صفحة المنتجات -->
-        <div id="productsPage" class="page-section">
-            
-            <!-- قسم اختيار المنتجات والبيانات -->
-            <div id="orderFormContainer" style="display: flex; flex-direction: column; gap: 20px;">
-                <h2 style="text-align: center; color: #8b5e3c;">قائمة المنتجات واختيار الطلب</h2>
-
-                <!-- شبكة المنتجات (كل 2 جنب بعض) -->
-                <div class="products-grid">
-                    
-                    <!-- 1. كوكيز بايتس -->
-                    <div class="card">
-                        <div>
-                            <h2>🍫 كوكيز بايتس</h2>
-                            <img src="images/bites.jpg" alt="كوكيز بايتس">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 10px;">قطع كوكيز صغيرة لذيذة ومقرمشة ومناسبة للمشاركة.</p>
-                        </div>
-                        <div>
-                            <label>نوع الكوكيز :</label>
-                            <select id="bitesType">
-                                <option value="لا أرغب به">لا أرغب به</option>
-                                <option value="كلاسيك">كلاسيك</option>
-                                <option value="شوكولاتة">شوكولاتة</option>
-                                <option value="مختلط">مختلط</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- 2. الكوكيز شوكولاتة -->
-                    <div class="card">
-                        <div>
-                            <h2>🍫 الكوكيز شوكولاتة</h2>
-                            <img src="images/cookie.jpg" alt="الكوكيز شوكولاتة">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 10px;">كوكيز غني بنكهة الشوكولاتة الفاخرة والطازجة.</p>
-                        </div>
-                        <div>
-                            <label>نوع الكوكيز :</label>
-                            <select id="chocType" onchange="toggleChocFilling()">
-                                <option value="لا أرغب به">لا أرغب به</option>
-                                <option value="شوكولاتة">شوكولاتة</option>
-                            </select>
-                            <label>الحشوة :</label>
-                            <select id="chocFill">
-                                <option value="لا أرغب به">لا أرغب به</option>
-                                <option value="بدون نوتيلا">بدون نوتيلا</option>
-                                <option value="مع نوتيلا">مع نوتيلا</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- 3. الكوكيز كلاسيك -->
-                    <div class="card">
-                        <div>
-                            <h2>🍪 الكوكيز كلاسيك</h2>
-                            <img src="images/combo.jpg" alt="الكوكيز كلاسيك">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 10px;">الكوكيز التقليدي الأصيل المخبوز بعناية فائقة.</p>
-                        </div>
-                        <div>
-                            <label>نوع الكوكيز :</label>
-                            <select id="classicType" onchange="toggleClassicFilling()">
-                                <option value="لا أرغب به">لا أرغب به</option>
-                                <option value="كلاسيك">كلاسيك</option>
-                            </select>
-                            <label>الحشوة :</label>
-                            <select id="classicFill">
-                                <option value="لا أرغب به">لا أرغب به</option>
-                                <option value="بدون نوتيلا">بدون نوتيلا</option>
-                                <option value="مع نوتيلا">مع نوتيلا</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- 4. كوكيز VIP -->
-                    <div class="card">
-                        <div>
-                            <h2>🎁 كوكيز vip</h2>
-                            <img src="images/vip.jpg" alt="كوكيز vip">
-                            <p style="line-height: 1.8; font-weight: bold; color: #6d4528; margin-bottom: 10px; font-size: 13px;">
-                                ✔ حبة كلاسيك | ✔ حبة محشي نوتيلا<br>
-                                ✔ حبة شوكولاتة | ✔ حبة شوكولاتة محشية نوتيلا
-                            </p>
-                        </div>
-                        <div>
-                            <label>نوع المشروب :</label>
-                            <select id="vipDrink">
-                                <option value="لا أرغب به">لا أرغب به</option>
-                                <option value="نسكافيه ساخنة">نسكافيه ساخنة</option>
-                                <option value="نسكافيه باردة">نسكافيه باردة</option>
-                                <option value="ماء">ماء</option>
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- بيانات الطلب -->
-                <div class="card" style="width: 100%;">
-                    <h2>📝 معلومات الطلب</h2>
-                    <input type="text" id="clientName" placeholder="الاسم الكريم" required>
-                    <input type="tel" id="clientPhone" placeholder="رقم الهاتف" required>
-                    <textarea id="clientNotes" placeholder="ملاحظات إضافية"></textarea>
-                    <button type="button" onclick="generateInvoice()">إتمام الطلب وعرض الفاتورة 🤎</button>
-                </div>
-            </div>
-
-            <!-- قسم الفاتورة التي تظهر بعد إتمام الطلب -->
-            <div id="invoiceSection">
-                <h2>📋 ملخص الطلب وفاتورتك</h2>
-                <div class="invoice-details" id="invoiceContent">
-                    <!-- سيتم تعبئة تفاصيل الطلب هنا تلقائياً -->
-                </div>
-                <div class="instruction-box">
-                    📸 يرجى التقاط صورة (سكرين ش็ت) لهذه الصفحة وإرسالها إلى رقم الواتساب الخاص بالمتجر لكي يتم تجهيز الطلب بنجاح!
-                </div>
-                <button type="button" onclick="resetOrder()" style="background: #a44d27;">إلغاء أو تعديل الطلب</button>
-            </div>
-
-        </div>
-
-        <!-- 3. صفحة تواصل معنا -->
-        <div id="contactPage" class="page-section">
-            <div class="card" style="width: 100%;">
-                <h2>📍 تواصل معي</h2>
-                <p style="margin-bottom: 15px;">يسعدني تواصلك معي عبر الطرق التالية:</p>
-                <p style="margin-bottom: 10px;">للتواصل علي الايميل :<br><strong style="color: #8b5e3c;">findyourfavoritesinmyshop@gmail.com</strong></p>
-                <p style="margin-top: 15px;">للتواصل على الواتساب :<br><strong style="color: #8b5e3c;" dir="ltr">0505089503</strong></p>
-            </div>
-        </div>
-
     </div>
 
-    <!-- حقوق الحفظ تحت -->
-    <footer>
-        <p>© 2026 L's bakery</p>
-        <p>جميع الحقوق محفوظة.</p>
-    </footer>
+    <!-- شاشة تسجيل الدخول -->
+    <div id="authScreen" style="display: none;">
+        <div class="auth-card">
+            <h2>✨ أهلاً بك في منظّمي الشامل</h2>
+            <p style="margin-bottom: 20px; font-size: 14px; opacity: 0.8;">أدخل اسمك ورقمك التعريفي الفريد ليبقى جدولك وأقسامك محفوظة دائماً</p>
+            
+            <input type="text" id="userName" placeholder="اسمك الكريم...">
+            <input type="text" id="uniqueId" placeholder="رقم تعريفي خاص بك (لا يتكرر مع غيرك)...">
+            
+            <label style="display: block; text-align: right; margin-bottom: 8px; font-weight: bold; font-size: 14px;">حدد الجنس (لتخصيص الثيم):</label>
+            <div class="gender-select">
+                <div class="gender-option" onclick="selectGender('male')" id="maleOpt">ذكر 👨‍💻</div>
+                <div class="gender-option" onclick="selectGender('female')" id="femaleOpt">أنثى 👩‍💻</div>
+            </div>
 
-    <!-- السكربتات (إدارة الصفحات وإنشاء الفاتورة) -->
+            <button class="action-btn" onclick="registerUser()">دخول إلى أقسامي 🚀</button>
+        </div>
+    </div>
+
+    <!-- لوحة التحكم والأقسام -->
+    <div id="appScreen" style="display: none; width: 100%; flex-direction: column; align-items: center; flex: 1;">
+        <nav>
+            <span id="welcomeMsg">📋 منظّمي الشامل</span>
+            <button class="logout-btn" onclick="logout()">خروج / تبديل الحساب</button>
+        </nav>
+
+        <div class="container">
+
+            <!-- الواجهة الرئيسية -->
+            <div id="homeSectionsView" class="card">
+                <h2 style="text-align: center; margin-bottom: 20px;">اختر القسم الذي تود تنظيمه وإدارته 🤎</h2>
+                
+                <div class="toggle-guide-bar" onclick="openWelcomePopup()">
+                    📖 اضغط هنا لقراءة دليل استخدام الموقع مجدداً
+                </div>
+
+                <div class="sections-grid">
+                    <div class="section-box" onclick="openSection('exams')">
+                        <span style="font-size: 30px;">📚</span>
+                        <h3>الدراسة والامتحانات</h3>
+                        <p style="font-size: 12px; opacity: 0.7;">الجدول والتقويم الملون ومواعيد الامتحانات</p>
+                    </div>
+                    <div class="section-box" onclick="openSection('cooking')">
+                        <span style="font-size: 30px;">🍳</span>
+                        <h3>الطبخ والأكلات</h3>
+                        <p style="font-size: 12px; opacity: 0.7;">تخطيط الوجبات والمقادير والطبخات</p>
+                    </div>
+                    <div class="section-box" onclick="openSection('outings')">
+                        <span style="font-size: 30px;">🚗</span>
+                        <h3>المشاوير والطلعات</h3>
+                        <p style="font-size: 12px; opacity: 0.7;">الأماكن والمواعيد والخطط الخارجية</p>
+                    </div>
+                    <div class="section-box" onclick="openSection('tasks')">
+                        <span style="font-size: 30px;">✅</span>
+                        <h3>المهام اليومية</h3>
+                        <p style="font-size: 12px; opacity: 0.7;">الأشياء والالتزامات اللازم إنجازها</p>
+                    </div>
+                </div>
+
+                <!-- التقويم الشامل -->
+                <div id="printableMasterArea" style="margin-top: 10px;">
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <span>📅 التقويم الشامل لكل نشاطاتك (يوليو 2026)</span>
+                        </div>
+                        <div class="calendar-grid" id="masterCalendarGrid"></div>
+                    </div>
+
+                    <div class="card" style="margin-top: 20px; border: 1px solid var(--border-color);">
+                        <h3 style="color: var(--nav-bg); margin-bottom: 12px; font-size: 18px;">📌 قائمة المهام اليومية السريعة</h3>
+                        <div id="homeTasksList">
+                            <p style="text-align: center; opacity: 0.6; font-size: 14px;">لا توجد مهام مضافة حالياً.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="action-btn download-btn" onclick="downloadMasterImage()">📥 تحميل التقويم الشامل وكل الأشياء كصورة مطبوعة</button>
+            </div>
+
+            <!-- 1. قسم الدراسة والامتحانات -->
+            <div id="examsSection" style="display: none;" class="card">
+                <button class="back-nav-btn" onclick="backToHome()">⬅ العودة للأقسام الرئيسية</button>
+                <h2>📚 قسم الدراسة والامتحانات والتقويم</h2>
+                
+                <div style="background: var(--input-bg); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+                    <input type="hidden" id="editingExamId" value="">
+                    <input type="text" id="examSubject" placeholder="اسم المادة (مثلاً: رياضيات، فيزياء)...">
+                    
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <label style="font-size: 14px; font-weight: bold;">اختر لون المادة:</label>
+                        <input type="color" id="examColor" value="#3498db" style="width: 60px; height: 40px; padding: 2px; cursor: pointer; border-radius: 8px;">
+                    </div>
+
+                    <label style="display: block; text-align: right; margin-bottom: 5px; font-size: 14px; font-weight: bold;">تاريخ الامتحان / موعد الانتهاء:</label>
+                    <input type="date" id="examDate">
+                    <textarea id="examContent" placeholder="شو لازم يدرسوا / التفاصيل والمواضيع المطلوب إنجازها وحفظها..."></textarea>
+                    <button class="action-btn" id="examSubmitBtn" onclick="saveExam()">إضافة المادة للجدول ✨</button>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: var(--nav-bg);">قائمة مواد الامتحانات</h3>
+                <div id="examsList" style="margin-bottom: 20px;">
+                    <p style="text-align: center; opacity: 0.6;">لا توجد مواد مضافة. أضف امتحانك الأول! 📖</p>
+                </div>
+            </div>
+
+            <!-- 2. قسم الطبخ والأكلات -->
+            <div id="cookingSection" style="display: none;" class="card">
+                <button class="back-nav-btn" onclick="backToHome()">⬅ العودة للأقسام الرئيسية</button>
+                <h2>🍳 قسم الطبخ والأكلات</h2>
+                
+                <div style="background: var(--input-bg); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+                    <input type="hidden" id="editingDishId" value="">
+                    <input type="text" id="dishName" placeholder="اسم الأكلة أو الطبخة (مثلاً: مجبوس، مكرونة)...">
+                    <label style="display: block; text-align: right; margin-bottom: 5px; font-size: 14px; font-weight: bold;">يوم التحضير / التقديم:</label>
+                    <input type="date" id="dishDate">
+                    <textarea id="dishIngredients" placeholder="المقادير والمكونات وما تحتاجه هذه الطبخة..."></textarea>
+                    <button class="action-btn" id="dishSubmitBtn" onclick="saveDish()">إضافة الطبخة للقائمة 🍲</button>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: var(--nav-bg);">جدول الطبخات والأكلات</h3>
+                <div id="cookingList">
+                    <p style="text-align: center; opacity: 0.6;">لا توجد طبخات مسجلة. أضف طبختك القادمة! ✨</p>
+                </div>
+            </div>
+
+            <!-- 3. قسم المشاوير والطلعات -->
+            <div id="outingsSection" style="display: none;" class="card">
+                <button class="back-nav-btn" onclick="backToHome()">⬅ العودة للأقسام الرئيسية</button>
+                <h2>🚗 قسم المشاوير والطلعات</h2>
+                
+                <div style="background: var(--input-bg); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+                    <input type="hidden" id="editingOutingId" value="">
+                    <input type="text" id="outingPlace" placeholder="مكان المشوار أو الطلعة (مثلاً: حديقة، مول)...">
+                    <label style="display: block; text-align: right; margin-bottom: 5px; font-size: 14px; font-weight: bold;">تاريخ الطلعة:</label>
+                    <input type="date" id="outingDate">
+                    <textarea id="outingNotes" placeholder="ملاحظات الطلعة، الأغراض المطلوبة، أو الترتيبات..."></textarea>
+                    <button class="action-btn" id="outingSubmitBtn" onclick="saveOuting()">إضافة الطلعة للجدول 🗺️</button>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: var(--nav-bg);">قائمة المشاوير والطلعات</h3>
+                <div id="outingsList">
+                    <p style="text-align: center; opacity: 0.6;">لا توجد مشاوير مسجلة حالياً.</p>
+                </div>
+            </div>
+
+            <!-- 4. قسم المهام اليومية -->
+            <div id="tasksSection" style="display: none;" class="card">
+                <button class="back-nav-btn" onclick="backToHome()">⬅ العودة للأقسام الرئيسية</button>
+                <h2>✅ قسم المهام اليومية (شو ورايا لازم أعمل)</h2>
+                
+                <div style="background: var(--input-bg); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+                    <input type="hidden" id="editingTaskId" value="">
+                    <input type="text" id="taskName" placeholder="المهمة أو الالتزام (ماذا ورايا لازم أنجزه اليوم؟)...">
+                    <textarea id="taskNotes" placeholder="تفاصيل إضافية عن المهمة..."></textarea>
+                    <button class="action-btn" id="taskSubmitBtn" onclick="saveTask()">إضافة المهمة للقائمة 📌</button>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: var(--nav-bg);">قائمة المهام</h3>
+                <div id="tasksList">
+                    <p style="text-align: center; opacity: 0.6;">لا توجد مهام مضافة.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>© 2026 منظّمي الشامل الذكي</p>
+        </footer>
+    </div>
+
     <script>
-        function switchPage(pageId) {
-            let pages = document.getElementsByClassName('page-section');
-            for (let i = 0; i < pages.length; i++) {
-                pages[i].classList.remove('active');
-            }
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0, 0);
-        }
+        let selectedGender = '';
 
-        function toggleChocFilling() {
-            let typeSelect = document.getElementById('chocType');
-            let fillSelect = document.getElementById('chocFill');
-            if (typeSelect.value.includes("لا أرغب")) {
-                fillSelect.value = "لا أرغب به";
+        window.onload = function() {
+            let activeUser = localStorage.getItem('activeUniversalUser');
+            if (activeUser) {
+                document.getElementById('welcomePopupOverlay').style.display = 'none';
+                loadUserSession(activeUser);
+            } else {
+                document.getElementById('welcomePopupOverlay').style.display = 'flex';
+                document.getElementById('authScreen').style.display = 'none';
             }
-        }
+        };
 
-        function toggleClassicFilling() {
-            let typeSelect = document.getElementById('classicType');
-            let fillSelect = document.getElementById('classicFill');
-            if (typeSelect.value.includes("لا أرغب")) {
-                fillSelect.value = "لا أرغب به";
+        function closeWelcomePopup() {
+            document.getElementById('welcomePopupOverlay').style.display = 'none';
+            let activeUser = localStorage.getItem('activeUniversalUser');
+            if (!activeUser) {
+                document.getElementById('authScreen').style.display = 'flex';
             }
         }
 
-        function generateInvoice() {
-            let name = document.getElementById('clientName').value.trim();
-            let phone = document.getElementById('clientPhone').value.trim();
-            let notes = document.getElementById('clientNotes').value.trim();
+        function openWelcomePopup() {
+            document.getElementById('welcomePopupOverlay').style.display = 'flex';
+        }
 
-            if (!name || !phone) {
-                alert("الرجاء إدخال الاسم ورقم الهاتف قبل إتمام الطلب.");
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.getElementById('maleOpt').classList.remove('selected');
+            document.getElementById('femaleOpt').classList.remove('selected');
+            
+            if (gender === 'male') {
+                document.getElementById('maleOpt').classList.add('selected');
+                document.body.className = 'theme-male';
+            } else {
+                document.getElementById('femaleOpt').classList.add('selected');
+                document.body.className = 'theme-female';
+            }
+        }
+
+        function registerUser() {
+            let name = document.getElementById('userName').value.trim();
+            let id = document.getElementById('uniqueId').value.trim();
+
+            if (!name || !id) {
+                alert("الرجاء إدخال الاسم والرقم التعريفي.");
+                return;
+            }
+            if (!selectedGender) {
+                alert("الرجاء اختيار الجنس لتحديد الثيم المناسب.");
                 return;
             }
 
-            let bites = document.getElementById('bitesType').value;
-            let chocType = document.getElementById('chocType').value;
-            let chocFill = document.getElementById('chocFill').value;
-            let classicType = document.getElementById('classicType').value;
-            let classicFill = document.getElementById('classicFill').value;
-            let vipDrink = document.getElementById('vipDrink').value;
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
 
-            // بناء محتوى الفاتورة
-            let invoiceHTML = `
-                <p><strong>👤 الاسم الكريم:</strong> ${name}</p>
-                <p><strong>📞 رقم الهاتف:</strong> <span dir="ltr">${phone}</span></p>
-                <hr style="border: 0; border-top: 1px solid #d4a373; margin: 10px 0;">
-                <p><strong>🛒 المنتجات المختارة:</strong></p>
-                <ul style="list-style-type: disc; margin-right: 20px; margin-top: 5px;">
-                    <li>كوكيز بايتس: <strong>${bites}</strong></li>
-                    <li>شوكولاتة (النوع): <strong>${chocType}</strong></li>
-                    <li>شوكولاتة (الحشوة): <strong>${chocFill}</strong></li>
-                    <li>كلاسيك (النوع): <strong>${classicType}</strong></li>
-                    <li>كلاسيك (الحشوة): <strong>${classicFill}</strong></li>
-                    <li>كوكيز VIP (المشروب): <strong>${vipDrink}</strong></li>
-                </ul>
-                <p style="margin-top: 10px;"><strong>📝 ملاحظات إضافية:</strong> ${notes ? notes : 'لا يوجد'}</p>
-            `;
+            if (allUsers[id]) {
+                if (allUsers[id].name !== name) {
+                    alert("عذراً! هذا الرقم التعريفي مستخدم من قِبل شخص آخر. يرجى اختيار رقم فريد آخر.");
+                    return;
+                }
+            } else {
+                allUsers[id] = {
+                    name: name,
+                    gender: selectedGender,
+                    exams: [],
+                    cooking: [],
+                    outings: [],
+                    tasks: []
+                };
+                localStorage.setItem('allUniversalUsersDB', JSON.stringify(allUsers));
+            }
 
-            document.getElementById('invoiceContent').innerHTML = invoiceHTML;
-            document.getElementById('orderFormContainer').style.display = 'none';
-            document.getElementById('invoiceSection').style.display = 'block';
-            window.scrollTo({ top: 200, behavior: 'smooth' });
+            localStorage.setItem('activeUniversalUser', id);
+            loadUserSession(id);
         }
 
-        function resetOrder() {
-            document.getElementById('invoiceSection').style.display = 'none';
-            document.getElementById('orderFormContainer').style.display = 'flex';
+        function loadUserSession(id) {
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+            let currentUser = allUsers[id];
+
+            if (!currentUser) {
+                logout();
+                return;
+            }
+
+            if (currentUser.gender === 'male') {
+                document.body.className = 'theme-male';
+            } else {
+                document.body.className = 'theme-female';
+            }
+
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'flex';
+            document.getElementById('welcomeMsg').innerText = `📋 أهلاً بك، ${currentUser.name}`;
+
+            refreshAllData(id);
+        }
+
+        function openSection(sectionName) {
+            document.getElementById('homeSectionsView').style.display = 'none';
+            document.getElementById('examsSection').style.display = 'none';
+            document.getElementById('cookingSection').style.display = 'none';
+            document.getElementById('outingsSection').style.display = 'none';
+            document.getElementById('tasksSection').style.display = 'none';
+
+            if (sectionName === 'exams') document.getElementById('examsSection').style.display = 'block';
+            if (sectionName === 'cooking') document.getElementById('cookingSection').style.display = 'block';
+            if (sectionName === 'outings') document.getElementById('outingsSection').style.display = 'block';
+            if (sectionName === 'tasks') document.getElementById('tasksSection').style.display = 'block';
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function backToHome() {
+            document.getElementById('examsSection').style.display = 'none';
+            document.getElementById('cookingSection').style.display = 'none';
+            document.getElementById('outingsSection').style.display = 'none';
+            document.getElementById('tasksSection').style.display = 'none';
+            document.getElementById('homeSectionsView').style.display = 'block';
+            
+            let activeId = localStorage.getItem('activeUniversalUser');
+            if (activeId) refreshAllData(activeId);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function refreshAllData(userId) {
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+            let user = allUsers[userId];
+
+            displayExams(user.exams);
+            displayCooking(user.cooking);
+            displayOutings(user.outings);
+            displayTasks(user.tasks);
+            buildMasterCalendar(user);
+        }
+
+        function saveExam() {
+            let editId = document.getElementById('editingExamId').value;
+            let subject = document.getElementById('examSubject').value.trim();
+            let color = document.getElementById('examColor').value;
+            let date = document.getElementById('examDate').value;
+            let content = document.getElementById('examContent').value.trim();
+
+            if (!subject || !date || !content) {
+                alert("الرجاء ملء جميع حقول المادة وتاريخ الامتحان والتفاصيل.");
+                return;
+            }
+
+            let activeId = localStorage.getItem('activeUniversalUser');
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+
+            if (editId) {
+                let item = allUsers[activeId].exams.find(e => e.id == editId);
+                if (item) {
+                    item.subject = subject;
+                    item.color = color;
+                    item.date = date;
+                    item.content = content;
+                }
+                document.getElementById('editingExamId').value = '';
+                document.getElementById('examSubmitBtn').innerText = 'إضافة المادة للجدول ✨';
+            } else {
+                allUsers[activeId].exams.unshift({ id: Date.now(), subject, color, date, content });
+            }
+
+            localStorage.setItem('allUniversalUsersDB', JSON.stringify(allUsers));
+
+            document.getElementById('examSubject').value = '';
+            document.getElementById('examDate').value = '';
+            document.getElementById('examContent').value = '';
+
+            refreshAllData(activeId);
+        }
+
+        function editExam(id) {
+            let activeId = localStorage.getItem('activeUniversalUser');
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+            let item = allUsers[activeId].exams.find(e => e.id == id);
+
+            if (item) {
+                document.getElementById('editingExamId').value = item.id;
+                document.getElementById('examSubject').value = item.subject;
+                document.getElementById('examColor').value = item.color;
+                document.getElementById('examDate').value = item.date;
+                document.getElementById('examContent').value = item.content;
+                document.getElementById('examSubmitBtn').innerText = 'حفظ التعديلات 🔄';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function displayExams(exams) {
+            let listContainer = document.getElementById('examsList');
+            if (exams.length === 0) {
+                listContainer.innerHTML = '<p style="text-align: center; opacity: 0.6;">لا توجد مواد مضافة. أضف امتحانك الأول! 📖</p>';
+                return;
+            }
+
+            let html = '';
+            exams.forEach(ex => {
+                html += `
+                    <div class="item-card" style="border-right-color: ${ex.color};">
+                        <div class="item-details">
+                            <h3><span style="display:inline-block; width:12px; height:12px; background:${ex.color}; border-radius:50%; margin-left:6px;"></span>مادة: ${ex.subject}</h3>
+                            <p><strong>📅 موعد الامتحان:</strong> ${ex.date}</p>
+                            <p><strong>📝 ما يجب دراسته:</strong> ${ex.content}</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="edit-btn" onclick="editExam(${ex.id})">تعديل</button>
+                            <button class="delete-btn" onclick="deleteItem('exams', ${ex.id})">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        function buildMasterCalendar(user) {
+            let grid = document.getElementById('masterCalendarGrid');
+            
+            let cellsHTML = `
+                <div class="calendar-day-name">أحد</div>
+                <div class="calendar-day-name">إثنين</div>
+                <div class="calendar-day-name">ثلاثاء</div>
+                <div class="calendar-day-name">أربعاء</div>
+                <div class="calendar-day-name">خميس</div>
+                <div class="calendar-day-name">جمعة</div>
+                <div class="calendar-day-name">سبت</div>
+            `;
+
+            let year = 2026;
+            let month = 6; // يوليو
+            let firstDayIndex = new Date(year, month, 1).getDay();
+            let totalDays = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                cellsHTML += `<div class="calendar-cell empty-cell"></div>`;
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                let formattedDay = day < 10 ? '0' + day : day;
+                let currentDateStr = `2026-07-${formattedDay}`;
+
+                let evHTML = '';
+
+                let matchingExams = user.exams.filter(e => e.date === currentDateStr);
+                matchingExams.forEach(m => {
+                    let tooltipText = `امتحان مادة: ${m.subject}\nالتفاصيل: ${m.content}`;
+                    evHTML += `<div class="calendar-event" style="background: ${m.color};" title="${tooltipText}">📚 ${m.subject}</div>`;
+                });
+
+                let matchingCooking = user.cooking.filter(c => c.date === currentDateStr);
+                matchingCooking.forEach(c => {
+                    let tooltipText = `طبخة: ${c.name}\nالمقادير: ${c.ingredients}`;
+                    evHTML += `<div class="calendar-event" style="background: #e67e22;" title="${tooltipText}">🍳 ${c.name}</div>`;
+                });
+
+                let matchingOutings = user.outings.filter(o => o.date === currentDateStr);
+                matchingOutings.forEach(o => {
+                    let tooltipText = `مشوار إلى: ${o.place}\nملاحظات: ${o.notes || 'لا توجد ملاحظات'}`;
+                    evHTML += `<div class="calendar-event" style="background: #2980b9;" title="${tooltipText}">🚗 ${o.place}</div>`;
+                });
+
+                cellsHTML += `
+                    <div class="calendar-cell">
+                        <span class="day-num">${day}</span>
+                        ${evHTML}
+                    </div>
+                `;
+            }
+            grid.innerHTML = cellsHTML;
+
+            let homeTasksContainer = document.getElementById('homeTasksList');
+            if (!user.tasks || user.tasks.length === 0) {
+                homeTasksContainer.innerHTML = '<p style="text-align: center; opacity: 0.6; font-size: 14px;">لا توجد مهام مضافة حالياً.</p>';
+            } else {
+                let tHtml = '';
+                user.tasks.forEach(t => {
+                    tHtml += `
+                        <div class="item-card" style="margin-bottom: 8px; padding: 12px; border-right: 5px solid var(--nav-bg);">
+                            <div class="item-details">
+                                <h3 style="font-size: 15px; color: var(--nav-bg);">✅ ${t.name}</h3>
+                                <p style="font-size: 13px; margin-top: 3px;">${t.notes ? t.notes : 'لا توجد تفاصيل'}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                homeTasksContainer.innerHTML = tHtml;
+            }
+        }
+
+        function saveDish() {
+            let editId = document.getElementById('editingDishId').value;
+            let name = document.getElementById('dishName').value.trim();
+            let date = document.getElementById('dishDate').value;
+            let ingredients = document.getElementById('dishIngredients').value.trim();
+
+            if (!name || !date || !ingredients) {
+                alert("الرجاء ملء جميع حقول الطبخة وتاريخ التحضير والمقادير.");
+                return;
+            }
+
+            let activeId = localStorage.getItem('activeUniversalUser');
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+
+            if (editId) {
+                let item = allUsers[activeId].cooking.find(c => c.id == editId);
+                if (item) {
+                    item.name = name;
+                    item.date = date;
+                    item.ingredients = ingredients;
+                }
+                document.getElementById('editingDishId').value = '';
+                document.getElementById('dishSubmitBtn').innerText = 'إضافة الطبخة للقائمة 🍲';
+            } else {
+                allUsers[activeId].cooking.unshift({ id: Date.now(), name, date, ingredients });
+            }
+
+            localStorage.setItem('allUniversalUsersDB', JSON.stringify(allUsers));
+
+            document.getElementById('dishName').value = '';
+            document.getElementById('dishDate').value = '';
+            document.getElementById('dishIngredients').value = '';
+
+            refreshAllData(activeId);
+        }
+
+        function editDish(id) {
+            let activeId = localStorage.getItem('activeUniversalUser');
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+            let item = allUsers[activeId].cooking.find(c => c.id == id);
+
+            if (item) {
+                document.getElementById('editingDishId').value = item.id;
+                document.getElementById('dishName').value = item.name;
+                document.getElementById('dishDate').value = item.date;
+                document.getElementById('dishIngredients').value = item.ingredients;
+                document.getElementById('dishSubmitBtn').innerText = 'حفظ التعديلات 🔄';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function displayCooking(cooking) {
+            let listContainer = document.getElementById('cookingList');
+            if (cooking.length === 0) {
+                listContainer.innerHTML = '<p style="text-align: center; opacity: 0.6;">لا توجد طبخات مسجلة. أضف طبختك القادمة! ✨</p>';
+                return;
+            }
+
+            let html = '';
+            cooking.forEach(c => {
+                html += `
+                    <div class="item-card" style="border-right-color: #e67e22;">
+                        <div class="item-details">
+                            <h3>🍳 الطبخة: ${c.name}</h3>
+                            <p><strong>📅 موعد التحضير:</strong> ${c.date}</p>
+                            <p><strong>🛒 المقادير والمكونات:</strong> ${c.ingredients}</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="edit-btn" onclick="editDish(${c.id})">تعديل</button>
+                            <button class="delete-btn" onclick="deleteItem('cooking', ${c.id})">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        function saveOuting() {
+            let editId = document.getElementById('editingOutingId').value;
+            let place = document.getElementById('outingPlace').value.trim();
+            let date = document.getElementById('outingDate').value;
+            let notes = document.getElementById('outingNotes').value.trim();
+
+            if (!place || !date) {
+                alert("الرجاء إدخال مكان المشوار وتاريخه.");
+                return;
+            }
+
+            let activeId = localStorage.getItem('activeUniversalUser');
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+
+            if (editId) {
+                let item = allUsers[activeId].outings.find(o => o.id == editId);
+                if (item) {
+                    item.place = place;
+                    item.date = date;
+                    item.notes = notes;
+                }
+                document.getElementById('editingOutingId').value = '';
+                document.getElementById('outingSubmitBtn').innerText = 'إضافة الطلعة للجدول 🗺️';
+            } else {
+                allUsers[activeId].outings.unshift({ id: Date.now(), place, date, notes });
+            }
+
+            localStorage.setItem('allUniversalUsersDB', JSON.stringify(allUsers));
+
+            document.getElementById('outingPlace').value = '';
+            document.getElementById('outingDate').value = '';
+            document.getElementById('outingNotes').value = '';
+
+            refreshAllData(activeId);
+        }
+
+        function editOuting(id) {
+            let activeId = localStorage.getItem('activeUniversalUser');
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+            let item = allUsers[activeId].outings.find(o => o.id == id);
+
+            if (item) {
+                document.getElementById('editingOutingId').value = item.id;
+                document.getElementById('outingPlace').value = item.place;
+                document.getElementById('outingDate').value = item.date;
+                document.getElementById('outingNotes').value = item.notes;
+                document.getElementById('outingSubmitBtn').innerText = 'حفظ التعديلات 🔄';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function displayOutings(outings) {
+            let listContainer = document.getElementById('outingsList');
+            if (outings.length === 0) {
+                listContainer.innerHTML = '<p style="text-align: center; opacity: 0.6;">لا توجد مشاوير مسجلة حالياً.</p>';
+                return;
+            }
+
+            let html = '';
+            outings.forEach(o => {
+                html += `
+                    <div class="item-card" style="border-right-color: #2980b9;">
+                        <div class="item-details">
+                            <h3>🚗 المكان: ${o.place}</h3>
+                            <p><strong>📅 الموعد:</strong> ${o.date}</p>
+                            <p><strong>📝 ملاحظات:</strong> ${o.notes ? o.notes : 'لا توجد'}</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="edit-btn" onclick="editOuting(${o.id})">تعديل</button>
+                            <button class="delete-btn" onclick="deleteItem('outings', ${o.id})">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        function saveTask() {
+            let editId = document.getElementById('editingTaskId').value;
+            let name = document.getElementById('taskName').value.trim();
+            let notes = document.getElementById('taskNotes').value.trim();
+
+            if (!name) {
+                alert("الرجاء إدخال المهمة.");
+                return;
+            }
+
+            let activeId = localStorage.getItem('activeUniversalUser');
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+
+            if (editId) {
+                let item = allUsers[activeId].tasks.find(t => t.id == editId);
+                if (item) {
+                    item.name = name;
+                    item.notes = notes;
+                }
+                document.getElementById('editingTaskId').value = '';
+                document.getElementById('taskSubmitBtn').innerText = 'إضافة المهمة للقائمة 📌';
+            } else {
+                allUsers[activeId].tasks.unshift({ id: Date.now(), name, notes });
+            }
+
+            localStorage.setItem('allUniversalUsersDB', JSON.stringify(allUsers));
+
+            document.getElementById('taskName').value = '';
+            document.getElementById('taskNotes').value = '';
+
+            refreshAllData(activeId);
+        }
+
+        function editTask(id) {
+            let activeId = localStorage.getItem('activeUniversalUser');
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+            let item = allUsers[activeId].tasks.find(t => t.id == id);
+
+            if (item) {
+                document.getElementById('editingTaskId').value = item.id;
+                document.getElementById('taskName').value = item.name;
+                document.getElementById('taskNotes').value = item.notes;
+                document.getElementById('taskSubmitBtn').innerText = 'حفظ التعديلات 🔄';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function displayTasks(tasks) {
+            let listContainer = document.getElementById('tasksList');
+            if (tasks.length === 0) {
+                listContainer.innerHTML = '<p style="text-align: center; opacity: 0.6;">لا توجد مهام مضافة.</p>';
+                return;
+            }
+
+            let html = '';
+            tasks.forEach(t => {
+                html += `
+                    <div class="item-card">
+                        <div class="item-details">
+                            <h3>✅ المهمة: ${t.name}</h3>
+                            <p><strong>📝 التفاصيل:</strong> ${t.notes ? t.notes : 'لا توجد'}</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="edit-btn" onclick="editTask(${t.id})">تعديل</button>
+                            <button class="delete-btn" onclick="deleteItem('tasks', ${t.id})">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        function deleteItem(type, id) {
+            let activeId = localStorage.getItem('activeUniversalUser');
+            let allUsers = JSON.parse(localStorage.getItem('allUniversalUsersDB')) || {};
+
+            allUsers[activeId][type] = allUsers[activeId][type].filter(item => item.id !== id);
+            localStorage.setItem('allUniversalUsersDB', JSON.stringify(allUsers));
+
+            refreshAllData(activeId);
+        }
+
+        function downloadMasterImage() {
+            let area = document.getElementById('printableMasterArea');
+            html2canvas(area, { scale: 2 }).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'Master-Schedule-Calendar.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem('activeUniversalUser');
+            document.getElementById('appScreen').style.display = 'none';
+            document.getElementById('authScreen').style.display = 'flex';
+            document.body.className = '';
+            document.getElementById('userName').value = '';
+            document.getElementById('uniqueId').value = '';
+            selectedGender = '';
+            document.getElementById('maleOpt').classList.remove('selected');
+            document.getElementById('femaleOpt').classList.remove('selected');
         }
     </script>
 
